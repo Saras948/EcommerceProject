@@ -8,6 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class ProductService implements IProductService {
 
@@ -18,10 +21,17 @@ public class ProductService implements IProductService {
         this.restTemplateBuilder = restTemplateBuilder;
     }
     @Override
-    public String getAllProduct()
+    public List<Product> getAllProduct()
     {
-
-        return null;
+        RestTemplate restTemplate = restTemplateBuilder.build();
+        ResponseEntity<ProductDto[]> productDtos = restTemplate.getForEntity("https://fakestoreapi.com/products",
+                ProductDto[].class);
+        List<Product> products = new ArrayList<>();
+        for(ProductDto productDto : productDtos.getBody())
+        {
+            products.add(getProduct(productDto));
+        }
+        return products;
     }
 
     @Override
@@ -35,18 +45,7 @@ public class ProductService implements IProductService {
         Product product = getProduct(productDto.getBody());
         return product;
     }
-    private Product getProduct(ProductDto productDto)
-    {
-        Product product = new Product();
-        product.setTitile(productDto.getTitle());
-        product.setDescription(productDto.getDescription());
-        product.setPrice(productDto.getPrice());
-        product.setImageUrl(productDto.getImage());
-        Categories categories = new Categories();
-        categories.setName(productDto.getCategory());
-        product.setCategory(categories);
-        return product;
-    }
+
 
     @Override
     public String updateProduct(Long productId)
@@ -63,6 +62,20 @@ public class ProductService implements IProductService {
     public String deleteProduct(Long productId)
     {
         return null;
+    }
+
+    private Product getProduct(ProductDto productDto)
+    {
+        Product product = new Product();
+        product.setId(productDto.getId());
+        product.setTitle(productDto.getTitle());
+        product.setDescription(productDto.getDescription());
+        product.setPrice(productDto.getPrice());
+        Categories category = new Categories();
+        category.setName(productDto.getCategory());
+        product.setCategory(category);
+        product.setImageUrl(productDto.getImage());
+        return product;
     }
 
 }

@@ -2,8 +2,10 @@ package com.productcategoryproxy.productcategoryproxy.services;
 
 import com.productcategoryproxy.productcategoryproxy.models.Product;
 
+import java.util.List;
+
 public interface IProductService {
-    String getAllProduct();
+    List<Product> getAllProduct();
 
     Product getSingleProduct(Long productId);
 

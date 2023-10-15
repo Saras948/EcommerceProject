@@ -8,7 +8,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Product extends BaseModel{
-    private String titile;
+    private String title;
     private String description;
     private double price;
     private Categories category;
