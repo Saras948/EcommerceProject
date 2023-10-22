@@ -1,6 +1,7 @@
 package com.productcategoryproxy.productcategoryproxy.controllers;
 
 import com.productcategoryproxy.productcategoryproxy.dtos.ProductDto;
+import com.productcategoryproxy.productcategoryproxy.models.Categories;
 import com.productcategoryproxy.productcategoryproxy.models.Product;
 import com.productcategoryproxy.productcategoryproxy.services.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,28 +42,36 @@ public class ProductController {
         }
     }
 
-    @PostMapping()
-    public String addNewProduct(@RequestBody ProductDto productDto)
+    @PostMapping("")
+    public Product addNewProduct(@RequestBody ProductDto productDto)
     {
-        return "Adding new product " + productDto;
+        return productService.addNewProduct(productDto);
     }
 
     @PutMapping("/{id}")
-    public String updateProduct(@PathVariable("id") Long productId)
+    public Product updateProduct(@PathVariable("id") Long productId)
     {
-        return "Updating Product";
+        return null;
     }
 
     @PatchMapping("/{id}")
-    public String patchProduct(@PathVariable("id") Long productId)
-    {
-        return "Patching Product";
-    }
+    public Product patchProduct(@PathVariable("id") Long productId,@RequestBody ProductDto productDto)
+        {
+            Product product = new Product();
+            product.setId(productDto.getId());
+            product.setCategory(new Categories());
+            product.getCategory().setName(productDto.getCategory());
+            product.setTitle(productDto.getTitle());
+            product.setPrice(productDto.getPrice());
+            product.setDescription(productDto.getDescription());
+            return productService.updateProduct(productId, product);
+        }
 
     @DeleteMapping("/{id}")
-    public String deleteProduct(@PathVariable("id") Long productId)
+    public Product deleteProduct(@PathVariable("id") Long productId)
     {
-        return "Deleting Product";
+        //Deleting Product
+        return productService.deleteProduct(productId);
     }
 
 }

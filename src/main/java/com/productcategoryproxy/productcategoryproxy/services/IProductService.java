@@ -1,5 +1,6 @@
 package com.productcategoryproxy.productcategoryproxy.services;
 
+import com.productcategoryproxy.productcategoryproxy.dtos.ProductDto;
 import com.productcategoryproxy.productcategoryproxy.models.Product;
 
 import java.util.List;
@@ -9,9 +10,9 @@ public interface IProductService {
 
     Product getSingleProduct(Long productId);
 
-    String updateProduct(Long productId);
+    Product addNewProduct(ProductDto productDto);
 
-    String patchProduct(Long productId);
+    Product updateProduct(Long productId, Product product);
 
-    String deleteProduct(Long productId);
+    Product deleteProduct(Long productId);
 }
