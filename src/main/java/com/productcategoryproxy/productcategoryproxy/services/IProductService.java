@@ -10,7 +10,7 @@ public interface IProductService {
 
     Product getSingleProduct(Long productId);
 
-    Product addNewProduct(ProductDto productDto);
+    Product addNewProduct(Product productDto);
 
     Product updateProduct(Long productId, Product product);
 

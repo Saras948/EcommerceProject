@@ -4,7 +4,6 @@ import com.productcategoryproxy.productcategoryproxy.dtos.ProductDto;
 import com.productcategoryproxy.productcategoryproxy.models.Categories;
 import com.productcategoryproxy.productcategoryproxy.models.Product;
 import com.productcategoryproxy.productcategoryproxy.services.IProductService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,7 +44,8 @@ public class ProductController {
     @PostMapping("")
     public Product addNewProduct(@RequestBody ProductDto productDto)
     {
-        return productService.addNewProduct(productDto);
+        Product product = getProduct(productDto);
+        return productService.addNewProduct(product);
     }
 
     @PutMapping("/{id}")
@@ -57,13 +57,7 @@ public class ProductController {
     @PatchMapping("/{id}")
     public Product patchProduct(@PathVariable("id") Long productId,@RequestBody ProductDto productDto)
         {
-            Product product = new Product();
-            product.setId(productDto.getId());
-            product.setCategory(new Categories());
-            product.getCategory().setName(productDto.getCategory());
-            product.setTitle(productDto.getTitle());
-            product.setPrice(productDto.getPrice());
-            product.setDescription(productDto.getDescription());
+            Product product = getProduct(productDto);
             return productService.updateProduct(productId, product);
         }
 
@@ -72,6 +66,18 @@ public class ProductController {
     {
         //Deleting Product
         return productService.deleteProduct(productId);
+    }
+
+    private Product getProduct(ProductDto productDto)
+    {
+        Product product = new Product();
+        product.setId(productDto.getId());
+        product.setCategory(new Categories());
+        product.getCategory().setName(productDto.getCategory());
+        product.setTitle(productDto.getTitle());
+        product.setPrice(productDto.getPrice());
+        product.setDescription(productDto.getDescription());
+        return product;
     }
 
 }
