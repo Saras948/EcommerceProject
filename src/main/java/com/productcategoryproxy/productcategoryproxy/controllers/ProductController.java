@@ -4,6 +4,7 @@ import com.productcategoryproxy.productcategoryproxy.dtos.ProductDto;
 import com.productcategoryproxy.productcategoryproxy.models.Categories;
 import com.productcategoryproxy.productcategoryproxy.models.Product;
 import com.productcategoryproxy.productcategoryproxy.services.IProductService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,7 @@ public class ProductController {
 
     IProductService productService;
 
-    public ProductController(IProductService productService)
+    public ProductController(@Qualifier("SelfProductService") IProductService productService)
     {
         this.productService = productService;
     }
@@ -76,6 +77,7 @@ public class ProductController {
         product.getCategory().setName(productDto.getCategory());
         product.setTitle(productDto.getTitle());
         product.setPrice(productDto.getPrice());
+        product.setImageUrl(productDto.getImage());
         product.setDescription(productDto.getDescription());
         return product;
     }
